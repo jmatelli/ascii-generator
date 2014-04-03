@@ -1,7 +1,7 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 
 // bower:scss
-@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss';
+@import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 
 .browsehappy {
@@ -43,10 +43,15 @@ body {
             margin: 0;
             color: forestgreen;
             cursor: default;
+            display: inline;
         }
 
         &.dragover {
             border-color: limegreen;
+
+            h2 {
+                color: limegreen;
+            }
         }
     }
 }
@@ -57,9 +62,12 @@ body {
 
 #list {
     margin-top: 30px;
-    max-height: 440px;
+    max-height: 570px;
     overflow: auto;
 
+    h2 {
+        color: forestgreen
+    }
 
     img {
         margin: 20px 10px 0;

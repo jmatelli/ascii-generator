@@ -69,13 +69,11 @@ class File
       @elm.addEventListener 'drop', (e) ->
         _self.handleFileSelect e, _self
       , false
-      @elm.addEventListener 'dragend', @handleDragEnd, false
     else if elm.attachEvent
       @elm.attachEvent 'ondragover', @handleDragOver
       @elm.attachEvent 'ondragleave', @handleDragLeave
       @elm.attachEvent 'ondrop', (e) ->
         _self.handleFileSelect e, _self
-      @elm.attachEvent 'ondragend', @handleDragEnd
 
   handleDragOver: (e) ->
     e.preventDefault()
@@ -87,10 +85,14 @@ class File
 
   handleDragEnd: (e) ->
     e.preventDefault()
+    console.log 'dragend'
     e.target.classList.remove 'dragover'
 
   handleFileSelect: (e, _self) ->
     e.preventDefault()
+
+    e.target.classList.remove 'dragover'
+    document.getElementById('list').classList.remove 'hidden'
 
     files = e.dataTransfer.files
 
