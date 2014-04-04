@@ -103,6 +103,7 @@ class File
             $('#list').append link
 
             $(link).on 'click', (e) ->
+              e.preventDefault()
               new Ascii this.getElementsByTagName('img')[0]
         )(file)
 
