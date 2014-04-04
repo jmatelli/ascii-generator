@@ -33,15 +33,27 @@
                 <div id="list" class="hidden">
                     <h2>Select image to render there<br>|<br>\/</h2>
                 </div>
+                <div id="btns" class="hidden">
+                    <button class="btn btn-default btn-lg select">Select the text</button>
+                    <button class="btn btn-primary btn-lg reset">Clear the stage!</button>
+                </div>
             </div>
         </div>
 
-        <div class="main">
+        <div class="main" id="main">
             <div class="container-fluid">
                 <pre class="hidden" id="ascii"></pre>
             </div>
         </div>
 
+        <div id="another" class="hidden">
+            <button class="btn btn-default btn-lg select">Select the text</button>
+            <button class="btn btn-primary btn-lg reset">Clear the stage!</button>
+        </div>
+
+        <!-- build:js scripts/vendor.js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <!-- endbuild -->
 
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -54,6 +66,10 @@
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js scripts/plugin.js -->
+        <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/scrollspy.js"></script>
         <!-- endbuild -->
 </body>
 </html>

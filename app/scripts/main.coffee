@@ -1,14 +1,16 @@
+$.event.props.push "dataTransfer"
+
 class Ascii
   constructor: (@img) ->
-    MAX_WIDTH = 150
+    MAX_WIDTH = 100
     line      = ''
     W         = if @img.width > MAX_WIDTH then MAX_WIDTH else @img.width
     H         = if @img.width > MAX_WIDTH then @img.height * MAX_WIDTH / @img.width else @img.height
     tcanvas   = document.createElement 'canvas'
-    ascii     = document.getElementById 'ascii'
+    ascii     = $('#ascii')
 
-    ascii.classList.remove 'hidden'
-    ascii.innerHTML = ''
+    ascii.html ''
+    ascii.removeClass 'hidden'
 
     tcanvas.width   = W
     tcanvas.height  = H
@@ -50,49 +52,38 @@ class Ascii
 
       # if the pointer reaches end of pixel-line
       if i isnt 0 && (i / 4) % W is 0
-        ascii.innerHTML = ascii.innerHTML + line;
+        ascii.html ascii.html() + line
         # newline
-        ascii.appendChild(document.createElement('br'));
+        ascii.append('<br>')
         # emptying line for the next row of pixels.
-        line = '';
+        line = ''
 
-      line += character;
+      line += character
 
 class File
   constructor: ->
-    @elm = document.getElementById 'uploadImg'
+    @elm = $('#uploadImg')
     _self = @
 
-    if @elm.addEventListener
-      @elm.addEventListener 'dragover', @handleDragOver, false
-      @elm.addEventListener 'dragleave', @handleDragLeave, false
-      @elm.addEventListener 'drop', (e) ->
-        _self.handleFileSelect e, _self
-      , false
-    else if elm.attachEvent
-      @elm.attachEvent 'ondragover', @handleDragOver
-      @elm.attachEvent 'ondragleave', @handleDragLeave
-      @elm.attachEvent 'ondrop', (e) ->
-        _self.handleFileSelect e, _self
+    $(@elm).on 'dragover', @handleDragOver
+    $(@elm).on 'dragleave', @handleDragLeave
+    $(@elm).on 'drop', (e) ->
+      _self.handleFileSelect e, _self
 
   handleDragOver: (e) ->
     e.preventDefault()
-    e.target.classList.add 'dragover'
+    $(e.target).addClass 'dragover'
 
   handleDragLeave: (e) ->
     e.preventDefault()
-    e.target.classList.remove 'dragover'
-
-  handleDragEnd: (e) ->
-    e.preventDefault()
-    console.log 'dragend'
-    e.target.classList.remove 'dragover'
+    $(e.target).removeClass 'dragover'
 
   handleFileSelect: (e, _self) ->
     e.preventDefault()
 
-    e.target.classList.remove 'dragover'
-    document.getElementById('list').classList.remove 'hidden'
+    $(e.target).removeClass 'dragover'
+    $('#list').removeClass 'hidden'
+    $('#btns').removeClass 'hidden'
 
     files = e.dataTransfer.files
 
@@ -109,32 +100,41 @@ class File
             link = document.createElement 'a'
             link.href = '#'
             link.innerHTML = ['<img class="img-thumbnail" src="', e.target.result, '"/>'].join('');
-            document.getElementById('list').insertBefore link, null
+            $('#list').append link
 
-            if link.addEventListener
-              link.addEventListener 'click', (e) ->
-                if this.className.match 'selected'
-                  _self.unselect e, this
-                else
-                  _self.select e, this, this.getElementsByTagName('img')[0]
-              , false;
-            else if link.attachEvent
-              link.attachEvent 'onclick', (e) ->
-                if this.className.match 'selected'
-                  _self.unselect e, this
-                else
-                  _self.select e, this, this.getElementsByTagName('img')[0]
-              , false;
+            $(link).on 'click', (e) ->
+              new Ascii this.getElementsByTagName('img')[0]
         )(file)
 
         reader.readAsDataURL(file)
 
-  select: (e, elm, img) ->
-    e.preventDefault()
-    new Ascii img
+$(window).scroll ->
+  if $('body').scrollTop() > 1030
+    $('#another').removeClass 'hidden'
+  else
+    $('#another').addClass 'hidden'
 
-  unselect: (e) ->
-    e.preventDefault()
-    element = elm || ''
+$('.select').on 'click', (e) ->
+  e.preventDefault()
+  text = document.getElementById 'ascii'
+  if document.body.createTextRange
+    range = document.body.createTextRange()
+    range.moveToElementText text
+    range.select()
+  else if window.getSelection
+    selection = window.getSelection()
+    range = document.createRange()
+    range.selectNodeContents text
+    selection.removeAllRanges()
+    selection.addRange range
+
+$('.reset').on 'click', (e) ->
+  e.preventDefault()
+  $('body').animate
+    scrollTop: 0
+  , 500, ->
+    $('#list').addClass('hidden').find('a').remove()
+    $('#btns').addClass('hidden')
+    $('#ascii').html('').addClass('hidden')
 
 new File()

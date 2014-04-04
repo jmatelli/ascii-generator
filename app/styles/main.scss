@@ -13,15 +13,14 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 
 /* Space out content a bit */
 body {
-    padding-bottom: 20px;
+    padding-bottom: 170px;
 }
 
 .head {
-    background: darkgreen;
+    background: $brand-primary;
     color: white;
     text-align: center;
     padding: 100px;
-    margin-bottom: 50px;
 
     h1 {
         margin: 0;
@@ -29,7 +28,7 @@ body {
 
     .drop {
         padding: 50px;
-        border: 5px dashed forestgreen;
+        border: 5px dashed lighten($brand-primary, 10%);
         border-radius: 10px;
         margin-top: 50px;
         -webkit-touch-callout: none;
@@ -41,23 +40,28 @@ body {
 
         h2 {
             margin: 0;
-            color: forestgreen;
+            color: lighten($brand-primary, 10%);
             cursor: default;
             display: inline;
         }
 
         &.dragover {
-            border-color: limegreen;
+            border-color: lighten($brand-primary,20%);
 
             h2 {
-                color: limegreen;
+                color: lighten($brand-primary, 20%);
             }
         }
+    }
+
+    #btns {
+        margin-top: 30px;
     }
 }
 
 .main {
     padding: 0 20px;
+    margin-top: 50px;
 }
 
 #list {
@@ -83,4 +87,14 @@ body {
     font-family: Courier New, Courier, Prestige, monospace;
     text-align: center;
     font-size: 1em;
+}
+
+#another {
+    background: rgba(white, 0.9);
+    border-top: 1px solid $brand-primary;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 50px;
+    text-align: center;
 }
